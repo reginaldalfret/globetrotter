@@ -91,7 +91,20 @@ export const shareAPI = {
 export const adminAPI = {
     getStats: () => api.get('/admin/stats'),
     getUsers: () => api.get('/admin/users'),
+    createUser: (data: any) => api.post('/admin/users', data),
     getAnalytics: () => api.get('/admin/analytics'),
+
+    // City Management
+    getAllCities: () => api.get('/admin/cities'),
+    createCity: (data: any) => api.post('/admin/cities', data),
+    updateCity: (id: string, data: any) => api.put(`/admin/cities/${id}`, data),
+    deleteCity: (id: string) => api.delete(`/admin/cities/${id}`),
+
+    // Activity Management
+    getAllActivities: () => api.get('/admin/activities'),
+    createActivity: (data: any) => api.post('/admin/activities', data),
+    updateActivity: (id: string, data: any) => api.put(`/admin/activities/${id}`, data),
+    deleteActivity: (id: string) => api.delete(`/admin/activities/${id}`),
 };
 
 // Profile API

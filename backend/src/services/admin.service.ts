@@ -1,4 +1,5 @@
 import prisma from '../config/prisma';
+import { hashPassword } from '../utils/auth.utils';
 
 export class AdminService {
     async getPlatformStats() {
@@ -128,6 +129,74 @@ export class AdminService {
             tripsByDay,
         };
     }
+    async getAllCities() {
+        return prisma.city.findMany({
+            orderBy: { popularity: 'desc' },
+        });
+    }
+
+    async createCity(data: any) {
+        // Generate ID from name if not provided (slug)
+        const id = data.name.toLowerCase().replace(/\s+/g, '-');
+        return prisma.city.create({
+            data: {
+                id,
+                ...data,
+            },
+        });
+    }
+
+    async updateCity(id: string, data: any) {
+        return prisma.city.update({
+            where: { id },
+            data,
+        });
+    }
+
+    async deleteCity(id: string) {
+        return prisma.city.delete({
+            where: { id },
+        });
+    }
+
+    async getAllActivities() {
+        return prisma.activity.findMany({
+            orderBy: { category: 'asc' },
+        });
+    }
+
+    async createActivity(data: any) {
+        return prisma.activity.create({
+            data,
+        });
+    }
+
+    async updateActivity(id: string, data: any) {
+        return prisma.activity.update({
+            where: { id },
+            data,
+        });
+    }
+
+    async deleteActivity(id: string) {
+        return prisma.activity.delete({
+            where: { id },
+        });
+    }
+}
+    async createUser(data: any) {
+    const { email, password, name, role } = data;
+    const hashedPassword = await hashPassword(password);
+
+    return prisma.user.create({
+        data: {
+            email,
+            password: hashedPassword,
+            name,
+            role: role || 'user',
+        },
+    });
+}
 }
 
 export default new AdminService();

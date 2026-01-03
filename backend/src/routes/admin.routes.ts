@@ -31,6 +31,17 @@ router.get('/users', async (req: AuthRequest, res: Response) => {
     }
 });
 
+router.post('/users', async (req: AuthRequest, res: Response) => {
+    try {
+        const user = await adminService.createUser(req.body);
+        return res.json(user);
+    } catch (error: any) {
+        console.error('Create user error:', error);
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+// GET /api/admin/analytics - Usage analytics
 // GET /api/admin/analytics - Usage analytics
 router.get('/analytics', async (req: AuthRequest, res: Response) => {
     try {
@@ -38,6 +49,80 @@ router.get('/analytics', async (req: AuthRequest, res: Response) => {
         return res.json(analytics);
     } catch (error: any) {
         console.error('Get analytics error:', error);
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+// City Management
+router.get('/cities', async (req: AuthRequest, res: Response) => {
+    try {
+        const cities = await adminService.getAllCities();
+        return res.json(cities);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/cities', async (req: AuthRequest, res: Response) => {
+    try {
+        const city = await adminService.createCity(req.body);
+        return res.json(city);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/cities/:id', async (req: AuthRequest, res: Response) => {
+    try {
+        const city = await adminService.updateCity(req.params.id, req.body);
+        return res.json(city);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.delete('/cities/:id', async (req: AuthRequest, res: Response) => {
+    try {
+        await adminService.deleteCity(req.params.id);
+        return res.json({ message: 'City deleted successfully' });
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+// Activity Management
+router.get('/activities', async (req: AuthRequest, res: Response) => {
+    try {
+        const activities = await adminService.getAllActivities();
+        return res.json(activities);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/activities', async (req: AuthRequest, res: Response) => {
+    try {
+        const activity = await adminService.createActivity(req.body);
+        return res.json(activity);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/activities/:id', async (req: AuthRequest, res: Response) => {
+    try {
+        const activity = await adminService.updateActivity(req.params.id, req.body);
+        return res.json(activity);
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.delete('/activities/:id', async (req: AuthRequest, res: Response) => {
+    try {
+        await adminService.deleteActivity(req.params.id);
+        return res.json({ message: 'Activity deleted successfully' });
+    } catch (error: any) {
         return res.status(500).json({ error: error.message });
     }
 });

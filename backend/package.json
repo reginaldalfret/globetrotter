@@ -11,7 +11,8 @@
     "test:integration": "jest --testPathPattern=__tests__/routes",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:seed": "tsx prisma/seed.ts"
+    "prisma:seed": "tsx prisma/seed.ts",
+    "create-admin": "tsx scripts/create-admin.ts"
   },
   "keywords": [
     "travel",
